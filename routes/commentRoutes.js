@@ -11,7 +11,7 @@ router
 router
     .route('/comments/:id')
     .get(commentController.getComment)
-    .patch(commentController.updateComment)
+    .put(commentController.updateComment)
     .delete(commentController.deleteComment);
 
 module.exports = router;
