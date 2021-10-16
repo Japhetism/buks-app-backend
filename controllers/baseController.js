@@ -97,5 +97,75 @@ exports.getAll = Model => async (req, res, next) => {
     } catch (error) {
         next(error);
     }
-
 };
+
+exports.likeOne = Model => async(req, res, next) => {
+    try {
+        const doc = await Model.findById(req.params.id);
+
+        if (!doc) {
+            return next(new AppError(process.env.HTTP_NOT_FOUND_STATUS_CODE, process.env.ERROR_STATUS, 'No document found with that id'), req, res, next);
+        }
+
+        if (doc.likes) {
+            doc.likes++;
+        } else {
+            doc.likes = 1;
+        }
+        
+        const updateDoc = await Model.findByIdAndUpdate(req.params.id, doc, {
+            new: true,
+            runValidators: true
+        }).populate("user");
+
+        if (!updateDoc) {
+            return next(new AppError(process.env.HTTP_NOT_FOUND_STATUS_CODE, process.env.ERROR_STATUS, 'No document found with that id'), req, res, next);
+        }
+
+        res.status(200).json({
+            status: process.env.SUCCESS_STATUS,
+            data: {
+                updateDoc
+            }
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+
+exports.dislikeOne = Model => async(req, res, next) => {
+    try {
+        const doc = await Model.findById(req.params.id);
+
+        if (!doc) {
+            return next(new AppError(process.env.HTTP_NOT_FOUND_STATUS_CODE, process.env.ERROR_STATUS, 'No document found with that id'), req, res, next);
+        }
+
+        if (doc.dislikes) {
+            doc.dislikes++;
+        } else {
+            doc.dislikes = 1;
+        }
+        
+        const updateDoc = await Model.findByIdAndUpdate(req.params.id, doc, {
+            new: true,
+            runValidators: true
+        }).populate("user");
+
+        if (!updateDoc) {
+            return next(new AppError(process.env.HTTP_NOT_FOUND_STATUS_CODE, process.env.ERROR_STATUS, 'No document found with that id'), req, res, next);
+        }
+
+        res.status(200).json({
+            status: process.env.SUCCESS_STATUS,
+            data: {
+                updateDoc
+            }
+        });
+
+    } catch (error) {
+        next(error);
+    }
+}

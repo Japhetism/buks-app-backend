@@ -14,4 +14,12 @@ router
     .put(commentController.updateComment)
     .delete(commentController.deleteComment);
 
+router 
+    .route('/comments/like/:id')
+    .get(commentController.updateLikeComment)
+
+router 
+    .route('/comments/dislike/:id')
+    .get(commentController.updateDislikeComment)
+
 module.exports = router;
