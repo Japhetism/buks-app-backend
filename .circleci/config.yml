@@ -1,0 +1,52 @@
+version: 2.1
+orbs:
+  heroku: circleci/heroku@0.0.10
+jobs:
+  stage:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git:
+          app-name: $STAGING
+
+  test:
+    working_directory: ~/repo
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - run:
+          name: Update NPM
+          command: "sudo npm install -g npm@5"
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+      - run:
+          name: Install Dependencies
+          command: npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "package-lock.json" }}
+          paths:
+            - ./node_modules
+      - run:
+          name: Run tests
+          command: npm run test
+
+  deploy:
+    executor: heroku/default
+    steps:
+      - checkout
+      - heroku/install
+      - heroku/deploy-via-git:
+          app-name: $PRODUCTION
+
+workflows:
+  stage_test_deploy:
+    jobs:
+      - stage
+      - test:
+          requires:
+            - stage
+      - deploy:
+          requires:
+            - test
