@@ -59,10 +59,11 @@ exports.login = async (req, res, next) => {
 exports.signup = async (req, res, next) => {
     try {
         
-        const { name, email, password, passwordConfirm, role } = req.body
+        const { firstName, lastName, email, password, passwordConfirm, role } = req.body
 
         const newUser = await User.create({
-            name,
+            firstName,
+            lastName,
             email,
             password,
             passwordConfirm,
