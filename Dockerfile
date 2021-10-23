@@ -1,15 +1,13 @@
-FROM node:8.11.4
+FROM node:12-alpine
 
-# Create project directory (workdir)
-RUN mkdir /app
 WORKDIR /app
 
-# Add package.json to WORKDIR and install dependencies
-COPY package.json .
-RUN npm install
+ENV NODE_ENV=production
 
-# Add the remaining source code files to WORKDIR
 COPY . .
 
-# Start the application
-CMD ["npm", "start"]
+RUN npm i --only=production
+
+EXPOSE 4000
+
+ENTRYPOINT ["npm", "start"]
