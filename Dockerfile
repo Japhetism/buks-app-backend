@@ -1,7 +1,7 @@
-FROM node:12-alpine3.14
+FROM node:13
 WORKDIR /app
 COPY package.json /app
-RUN npm cache clean --force
+RUN npm install
 COPY . /app
 CMD node server.js
-EXPOSE 8081
+EXPOSE 3000
