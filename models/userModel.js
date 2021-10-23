@@ -4,9 +4,13 @@ const bcrypt = require('bcryptjs');
 
 
 const userSchema = new mongoose.Schema({
-    name: {
+    firstName: {
         type: String,
-        required: [true, 'Please fill your name']
+        required: [true, 'Please fill your first name']
+    },
+    lastName: {
+        type: String,
+        required: [true, 'Please fill your last name']
     },
     email: {
         type: String,
@@ -37,7 +41,7 @@ const userSchema = new mongoose.Schema({
     role: {
         type: mongoose.Schema.Types.ObjectId,
         ref:'Role',
-        default: "615ae4a28a2a2a1a46090ab6"
+        default: "615ae4698a2a2a1a46090ab5"
     },
     active: {
         type: Boolean,

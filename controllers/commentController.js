@@ -8,3 +8,7 @@ exports.getComment = base.getOne(Comment);
 // Don't update password on this 
 exports.updateComment = base.updateOne(Comment);
 exports.deleteComment = base.deleteOne(Comment);
+
+// To update like and dislike for comment
+exports.updateLikeComment = base.likeOne(Comment);
+exports.updateDislikeComment = base.dislikeOne(Comment);
