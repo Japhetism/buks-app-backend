@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: buks-backend
+  labels:
+    app: buks-backend
+spec:
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: buks-backend
+      
+  template:
+    metadata:
+      labels:
+        app: buks-backend
+        tier: buks-backend
+    spec:
+      containers:
+        - name: buks-backend
+          image: japhetism/gcp-buks-backend:tagversion
+          imagePullPolicy: Always
+          ports:
+          - containerPort: 80
+            name: buks-backend
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: buks-backend
+  labels:
+    app: buks-backend
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: buks-backend
+    tier: buks-backend
+  type: LoadBalancer
