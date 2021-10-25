@@ -22,7 +22,7 @@ spec:
           image: japhetism/gcp-buks-backend:tagversion
           imagePullPolicy: Always
           ports:
-          - containerPort: 80
+          - containerPort: 4000
             name: buks-backend
 
 
@@ -35,8 +35,8 @@ metadata:
     app: buks-backend
 spec:
   ports:
-    - port: 80
-      targetPort: 80
+    - port: 4000
+      targetPort: 4000
   selector:
     app: buks-backend
     tier: buks-backend
